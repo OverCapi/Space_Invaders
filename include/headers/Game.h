@@ -2,6 +2,7 @@
 #define Game_h
 
 #include <SDL.h>
+#include <SDL_image.h>
 #include <stdio.h>
 
 class Game
@@ -10,6 +11,8 @@ class Game
         Game();
         ~Game();
 
+        static SDL_Renderer* renderer;
+
         void init(const char *title, int x, int y, int w, int h, Uint32 flags);
 
         void run(const int FPS);
@@ -17,7 +20,6 @@ class Game
     private:
 
         SDL_Window* window = nullptr;
-        SDL_Renderer* renderer = nullptr;
 
         int screen_width = 1024;
         int screen_height = 600;

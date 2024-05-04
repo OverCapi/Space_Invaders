@@ -1,4 +1,10 @@
 #include <Game.h>
+#include <Player.h>
+#include <GameObject.h>
+
+SDL_Renderer* Game::renderer = nullptr;
+Player* player = nullptr;
+GameObject* background = nullptr;
 
 Game::Game()
 {
@@ -30,6 +36,11 @@ void Game::init(const char *title, int x, int y, int w, int h, Uint32 flags)
             SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
             gameState = true;
         }
+        player = new Player();
+        player->init(450, 850);
+
+        background = new GameObject("assets/background-black.png");
+        background->update(0, 0, 1000, 1000);
     }
 }
 
@@ -66,6 +77,8 @@ void Game::update()
 void Game::render()
 {
     SDL_RenderClear(renderer);
+    background->render();
+    player->render();
     SDL_RenderPresent(renderer);
 }
 
