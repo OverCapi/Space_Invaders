@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include <Game.h>
 #include <Player.h>
 #include <GameObject.h>
@@ -26,13 +28,13 @@ void Game::init(const char *title, int x, int y, int w, int h, Uint32 flags)
         window = SDL_CreateWindow(title, x, y, screen_width, screen_height, flags);
         if (window != NULL)
         {
-            printf("Window created!...\n");
+            std::cout << "Window created!..." << std::endl;
         }
 
         renderer = SDL_CreateRenderer(window, -1, 0);
         if (renderer != NULL)
         {
-            printf("Renderer created!...\n");
+            std::cout << "Renderer created!..." << std::endl;
             SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
             gameState = true;
         }
@@ -72,6 +74,8 @@ void Game::run(const int FPS)
 void Game::update()
 {
     update_count++;
+    //std::cout << update_count << std::endl;
+    player->move();
 }
 
 void Game::render()
@@ -89,8 +93,53 @@ void Game::handleEvents()
 
     switch (event.type)
     {
+        case SDL_KEYDOWN:
+            key_down_event(&event);
+            break;
+        case SDL_KEYUP:
+            key_up_event(&event);
+            break;
         case SDL_QUIT:
             gameState = false;
+            break;
+    }
+}
+
+void Game::key_down_event(SDL_Event* event)
+{
+    switch (event->key.keysym.sym)
+    {
+        case SDLK_UP:
+            player->go_Up = true;
+            break;
+        case SDLK_DOWN:
+            player->go_Down = true;
+            break;
+        case SDLK_RIGHT:
+            player->go_Right = true;
+            break;
+        case SDLK_LEFT:
+            player->go_Left = true;
+            break;
+    }
+}
+
+void Game::key_up_event(SDL_Event* event)
+{
+    switch (event->key.keysym.sym)
+    {
+        case SDLK_UP:
+            player->go_Up = false;
+            break;
+        case SDLK_DOWN:
+            player->go_Down = false;
+            break;
+        case SDLK_RIGHT:
+            player->go_Right = false;
+            break;
+        case SDLK_LEFT:
+            player->go_Left = false;
+            break;
     }
 }
 
@@ -99,7 +148,7 @@ void Game::clean()
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
-    printf("Game cleaned!...\n");
+    std::cout << "Game cleaned!..." << std::endl;
 }
 
 bool Game::is_running()

@@ -17,12 +17,16 @@ class Game
 
         void run(const int FPS);
 
+        void key_down_event(SDL_Event* event);
+        void key_up_event(SDL_Event* event);
+
     private:
 
         SDL_Window* window = nullptr;
 
-        int screen_width = 1024;
-        int screen_height = 600;
+        int screen_width = 1000;
+        int screen_height = 1000;
+
         int update_count = 0;
 
         bool gameState = false;
