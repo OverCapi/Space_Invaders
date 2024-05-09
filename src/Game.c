@@ -52,6 +52,8 @@ void setup(void)
 
 void key_down_event(SDL_Event *event)
 {
+    if (event->key.keysym.sym == SDLK_SPACE)
+        player.is_shooting = TRUE;
     if (event->key.keysym.sym == SDLK_UP)
         player.up = TRUE;
     if (event->key.keysym.sym == SDLK_DOWN)
@@ -64,6 +66,8 @@ void key_down_event(SDL_Event *event)
 
 void key_up_event(SDL_Event *event)
 {
+    if (event->key.keysym.sym == SDLK_SPACE)
+        player.is_shooting = FALSE;
     if (event->key.keysym.sym == SDLK_UP)
         player.up = FALSE;
     if (event->key.keysym.sym == SDLK_DOWN)
@@ -110,7 +114,7 @@ void update(void)
 
     float delta_time = (SDL_GetTicks() - Game.last_frame_time) / 1000.0f;
 
-    move_player(&player, delta_time);
+    update_player(&player, Game.renderer, delta_time);
     
     Game.last_frame_time = SDL_GetTicks();
 }
